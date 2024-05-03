@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+# DASHBOARD MODULE
 Route::get('/dashboard/index', [DashboardController::class, 'index']);
