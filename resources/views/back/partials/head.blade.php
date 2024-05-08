@@ -9,4 +9,5 @@
     <link rel="stylesheet" href="{{ asset('back-assets') }}/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('back-assets') }}/dist/css/adminlte.min.css">
+    
   </head>
