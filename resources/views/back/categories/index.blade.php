@@ -10,7 +10,7 @@
 @section('content')
 
     <div class="mb-5 ml-3">
-        <a href="{{ route('categories.create') }}" class="btn btn-sm btn-outline-primary">Add New</a>
+        <a href="{{ route('dashboard.categories.create') }}" class="btn btn-sm btn-outline-primary">Add New</a>
     </div>
 
     @if (session('create-status'))
@@ -35,16 +35,16 @@
 
             @forelse ($categories as $category)
                 <tr>
-                    <td></td>
+                    <td><img src="{{ asset("uploads/$category->image") }}" height="50" alt=""></td>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->parent_id }}</td>
-                    <td>{{ $category->created_at }}</td>
+                    <td>{{ $category->created_at->format('d M, Y h:i a')  }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                        <a href="{{ route('dashboard.categories.edit', $category->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
                     </td>
                     <td>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                        <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="post">
                             @csrf
                             @method('DELETE')
 

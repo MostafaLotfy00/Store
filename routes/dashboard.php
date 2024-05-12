@@ -4,6 +4,10 @@ use App\Http\Controllers\Dashboard\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::middleware('auth')->name('dashboard.')->prefix('dashboard')->group(function(){
 
-Route::resource('dashboard/categories', CategoriesController::class);
+    Route::get('/', [DashboardController::class, 'index']);
+    
+    Route::resource('/categories', CategoriesController::class);
+});
+
