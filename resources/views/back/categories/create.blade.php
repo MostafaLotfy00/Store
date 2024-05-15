@@ -13,8 +13,9 @@
     @csrf
     <div class="form-group">
       <label for="categoryName">Category Name</label>
-      <input type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) name="name" value="{{ old('name') }}" id="categoryName"  placeholder="Enter name">
-      <x-input-error :messages="$errors->get('name')" class="mt-2" />
+      {{-- <input type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) name="name" value="{{ old('name') }}" id="categoryName"  placeholder="Enter name"> --}}
+      <x-form.input type="text" name="name" place="Enter Name" />
+      {{-- <x-input-error :messages="$errors->get('name')" class="mt-2" /> --}}
     </div>
    
     <div class="form-group">

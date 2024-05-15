@@ -14,10 +14,10 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
-        $categories = Category::latest()->get();
-
+       
+        $categories= Category::filter($req->query())->latest()->paginate(3);
         return view('back.categories.index', compact('categories'));
     }
 
@@ -42,7 +42,7 @@ class CategoriesController extends Controller
 
         $category = Category::create($data);
 
-        return redirect()->route('dashboard.categories.index')->with('create-status', "Category Added Successfully");
+        return redirect()->route('dashboard.categories.index')->with('success', "Category Added Successfully");
     }
 
     /**
@@ -87,20 +87,20 @@ class CategoriesController extends Controller
         if ($old_image && isset($data['image'])) {
             Storage::disk('uploads')->delete($old_image);
         }
-        return redirect()->route('dashboard.categories.index')->with('create-status', "Category Updated Successfully");
+        return redirect()->route('dashboard.categories.index')->with('success', "Category Updated Successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
+      //  $category = Category::findOrFail($id);
         $category->delete();
-        if ($category->image) {
-            Storage::disk('uploads')->delete($category->image);
-        }
-        return redirect()->route('dashboard.categories.index')->with('create-status', "Category Deleted Successfully");
+        // if ($category->image) {
+        //     Storage::disk('uploads')->delete($category->image);
+        // }
+        return redirect()->route('dashboard.categories.index')->with('success', "Category Deleted Successfully");
     }
 
     protected function uploadImage($request)
@@ -112,5 +112,28 @@ class CategoriesController extends Controller
         $image = $request->file('image');
         $path = $image->store('categories', 'uploads');
         return $path;
+    }
+
+    public function trash(Request $req){
+
+        $categories= Category::filter($req->query())->onlyTrashed()->paginate();
+
+        return view('back.categories.trash', compact('categories'));
+    }
+
+    public function restore(Request $req, $id){
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+
+        return redirect()->route('dashboard.categories.trash')->with('success', 'Category Restored Successfully!');
+    }
+    public function forceDelete($id){
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+
+        if($category->image){
+            Storage::disk('uploads')->delete($category->image);
+        }
+        return redirect()->route('dashboard.categories.trash')->with('success', 'Category force deleted Successfully!');
     }
 }

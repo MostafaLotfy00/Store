@@ -15,8 +15,9 @@
     @method('put')
     <div class="form-group">
       <label for="categoryName">Category Name</label>
-      <input type="text" class="form-control" name="name" id="categoryName" value="{{ old('name',$category->name)  }}" aria-describedby="emailHelp" placeholder="Enter email">
-      <x-input-error :messages="$errors->get('name')" class="mt-2" />
+      {{-- <input type="text" class="form-control" name="name" id="categoryName" value="{{ old('name',$category->name)  }}" aria-describedby="emailHelp" placeholder="Enter email"> --}}
+      <x-form.input type="text" name="name" place="Enter Name" value="{{ $category->name }}" />
+      {{-- <x-input-error :messages="$errors->get('name')" class="mt-2" /> --}}
     </div>
    
     <div class="form-group">
