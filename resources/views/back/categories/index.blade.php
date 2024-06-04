@@ -32,6 +32,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Parent</th>
+                <th>Products #</th>
                 <th>Status</th>
                 <th>Created At</th>
                 <th colspan="2"></th>
@@ -45,7 +46,8 @@
                     <td><img src="{{ asset("uploads/$category->image") }}" height="50" alt=""></td>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->category->name ?? "" }}</td>
+                    <td>{{ $category->category->name }}</td>
+                    <td>{{ $category->products_count }}</td>
                     <td>{{ $category->status }}</td>
                     <td>{{ $category->created_at->format('d M, Y h:i a')  }}</td>
                     <td>
@@ -63,7 +65,7 @@
 
             @empty
                 <tr>
-                    <td colspan="7"> No Data Found</td>
+                    <td colspan="8"> No Data Found</td>
                 </tr>
             @endforelse
 

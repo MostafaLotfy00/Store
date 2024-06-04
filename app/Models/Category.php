@@ -13,6 +13,10 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable= ['name', 'parent_id', 'description', 'slug', 'status', 'image'];
+    
+    public function products(){
+        return $this->hasMany(Product::class, 'category_id', 'id');
+    }
 
     public function scopeActive(Builder $builder){
         $builder->where('status', 'active');
@@ -33,7 +37,7 @@ class Category extends Model
     }
 
     public function category(){
-        return $this->belongsTo(Category::class,'parent_id');
+        return $this->belongsTo(Category::class,'parent_id')->withDefault('Main');
     }
     public static function rules($id){
         return [
@@ -43,4 +47,6 @@ class Category extends Model
             'status' => 'required|in:active,archived'
         ];
     }
+
+
 }

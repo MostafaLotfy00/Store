@@ -9,5 +9,7 @@
     <link rel="stylesheet" href="{{ asset('back-assets') }}/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('back-assets') }}/dist/css/adminlte.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
     
   </head>

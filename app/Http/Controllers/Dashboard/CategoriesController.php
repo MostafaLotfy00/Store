@@ -17,7 +17,9 @@ class CategoriesController extends Controller
     public function index(Request $req)
     {
        
-        $categories= Category::filter($req->query())->latest()->paginate(3);
+        $categories= Category::with('category')
+        ->withCount('products')
+        ->filter($req->query())->latest()->paginate(3);
         return view('back.categories.index', compact('categories'));
     }
 
@@ -116,7 +118,7 @@ class CategoriesController extends Controller
 
     public function trash(Request $req){
 
-        $categories= Category::filter($req->query())->onlyTrashed()->paginate();
+        $categories= Category::with('category')->filter($req->query())->onlyTrashed()->paginate();
 
         return view('back.categories.trash', compact('categories'));
     }
