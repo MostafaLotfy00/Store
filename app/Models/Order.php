@@ -15,6 +15,7 @@ class Order extends Model
         'store_id',
         'payment_method',
         'status',
+        'number',
         'payment_status'
     ];
 
@@ -42,6 +43,10 @@ class Order extends Model
     public function shippingAddress(){
         return $this->hasOne(OrderAddress::class, 'order_id', 'id')
         ->where('type', 'billing');
+    }
+
+    public function detail(){
+        return $this->hasOne(OrderItem::class, 'order_id');
     }
 
     protected static function booted()

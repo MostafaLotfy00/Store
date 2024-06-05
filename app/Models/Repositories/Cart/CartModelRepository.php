@@ -45,7 +45,7 @@ class CartModelRepository implements CartRepository{
 
     public function clear(): void
     {
-        Cart::query()->destroy();
+        Cart::truncate();
     }
     public function total()
     {

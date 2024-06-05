@@ -22,11 +22,11 @@
         </x-slot:breadcrambs>
 
     <section class="checkout-wrapper section">
-        <form action="{{ route('checkout') }}" method="post">
-            @csrf
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
+                    <form action="{{ route('checkout') }}" method="post">
+                        @csrf
                     <div class="checkout-steps-form-style-1">
                         <ul id="accordionExample">
                             <li>
@@ -40,10 +40,10 @@
                                                 <label>User Name</label>
                                                 <div class="row">
                                                     <div class="col-md-6 form-input form">
-                                                        <input type="text" placeholder="First Name">
+                                                       <x-form.input type="text" name="address[billing][first_name]" place="Enter First Name" />
                                                     </div>
                                                     <div class="col-md-6 form-input form">
-                                                        <input type="text" placeholder="Last Name">
+                                                        <x-form.input type="text" name="address[billing][last_name]" place="Enter Last Name" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -52,7 +52,7 @@
                                             <div class="single-form form-default">
                                                 <label>Email Address</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Email Address">
+                                                    <x-form.input type="text" name="address[billing][email]" place="Enter Email" />
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                             <div class="single-form form-default">
                                                 <label>Phone Number</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Phone Number">
+                                                    <x-form.input type="text" name="address[billing][phone]" place="Enter Phone Number" />
                                                 </div>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                             <div class="single-form form-default">
                                                 <label>Mailing Address</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Mailing Address">
+                                                    <x-form.input type="text" name="address[billing][street_address]" place="Enter Address" />
                                                 </div>
                                             </div>
                                         </div>
@@ -76,7 +76,7 @@
                                             <div class="single-form form-default">
                                                 <label>City</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="City">
+                                                    <x-form.input type="text" name="address[billing][city]" place="Enter City" />
                                                 </div>
                                             </div>
                                         </div>
@@ -84,15 +84,7 @@
                                             <div class="single-form form-default">
                                                 <label>Post Code</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Post Code">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>Country</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Country">
+                                                    <x-form.input type="text" name="address[billing][postal_code]" place="Enter Post Code" />
                                                 </div>
                                             </div>
                                         </div>
@@ -100,17 +92,22 @@
                                             <div class="single-form form-default">
                                                 <label>Region/State</label>
                                                 <div class="select-items">
-                                                    <select class="form-control">
-                                                        <option value="0">select</option>
-                                                        <option value="1">select option 01</option>
-                                                        <option value="2">select option 02</option>
-                                                        <option value="3">select option 03</option>
-                                                        <option value="4">select option 04</option>
-                                                        <option value="5">select option 05</option>
-                                                    </select>
+                                                    <x-form.input type="text" name="address[billing][state]" place="Enter State" />
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="single-form form-default">
+                                                <label>Country</label>
+                                                <select class="form-control" name="address[billing][country]" id="categoryParent">
+                                                    <option value="">Country</option>
+                                                    @foreach ($countries as $country => $value)
+                                                    <option value="{{ $country }}">{{ $value }}</option>
+                                                    @endforeach
+                                                  </select>
+                                            </div>
+                                        </div>
+                                      
                                         <div class="col-md-12">
                                             <div class="single-checkbox checkbox-style-3">
                                                 <input type="checkbox" id="checkbox-3">
@@ -140,10 +137,10 @@
                                                 <label>User Name</label>
                                                 <div class="row">
                                                     <div class="col-md-6 form-input form">
-                                                        <input type="text" placeholder="First Name">
+                                                       <x-form.input type="text" name="address[shipping][first_name]" place="Enter First Name" />
                                                     </div>
                                                     <div class="col-md-6 form-input form">
-                                                        <input type="text" placeholder="Last Name">
+                                                        <x-form.input type="text" name="address[shipping][last_name]" place="Enter Last Name" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,7 +149,7 @@
                                             <div class="single-form form-default">
                                                 <label>Email Address</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Email Address">
+                                                    <x-form.input type="text" name="address[shipping][email]" place="Enter Email" />
                                                 </div>
                                             </div>
                                         </div>
@@ -160,7 +157,7 @@
                                             <div class="single-form form-default">
                                                 <label>Phone Number</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Phone Number">
+                                                    <x-form.input type="text" name="address[shipping][phone]" place="Enter Phone Number" />
                                                 </div>
                                             </div>
                                         </div>
@@ -168,7 +165,7 @@
                                             <div class="single-form form-default">
                                                 <label>Mailing Address</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Mailing Address">
+                                                    <x-form.input type="text" name="address[shipping][street_address]" place="Enter Address" />
                                                 </div>
                                             </div>
                                         </div>
@@ -176,7 +173,7 @@
                                             <div class="single-form form-default">
                                                 <label>City</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="City">
+                                                    <x-form.input type="text" name="address[shipping][city]" place="Enter City" />
                                                 </div>
                                             </div>
                                         </div>
@@ -184,15 +181,7 @@
                                             <div class="single-form form-default">
                                                 <label>Post Code</label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Post Code">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>Country</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Country">
+                                                    <x-form.input type="text" name="address[shipping][postal_code]" place="Enter Post Code" />
                                                 </div>
                                             </div>
                                         </div>
@@ -200,15 +189,19 @@
                                             <div class="single-form form-default">
                                                 <label>Region/State</label>
                                                 <div class="select-items">
-                                                    <select class="form-control">
-                                                        <option value="0">select</option>
-                                                        <option value="1">select option 01</option>
-                                                        <option value="2">select option 02</option>
-                                                        <option value="3">select option 03</option>
-                                                        <option value="4">select option 04</option>
-                                                        <option value="5">select option 05</option>
-                                                    </select>
+                                                    <x-form.input type="text" name="address[shipping][state]" place="Enter State" />
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="single-form form-default">
+                                                <label>Country</label>
+                                                <select class="form-control" name="address[shipping][country]" id="categoryParent">
+                                                    <option value="">Country</option>
+                                                    @foreach ($countries as $country => $value)
+                                                    <option value="{{ $country }}">{{ $value }}</option>
+                                                    @endforeach
+                                                  </select>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -259,7 +252,7 @@
                                             <div class="steps-form-btn button">
                                                 <button class="btn" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseThree" aria-expanded="false"
-                                                    aria-controls="collapseThree">previous</button>
+                                                    aria-controls="collapseThree">Save</button>
                                                 <a href="javascript:void(0)" class="btn btn-alt">Save & Continue</a>
                                             </div>
                                         </div>

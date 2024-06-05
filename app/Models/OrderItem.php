@@ -12,6 +12,7 @@ class OrderItem extends Pivot
 
     protected $table= 'order_items';
     public $incrementing= true;
+    public $timestamps = false;
 
     public function product(){
         return $this->belongsTo(Product::class)->withDefault([

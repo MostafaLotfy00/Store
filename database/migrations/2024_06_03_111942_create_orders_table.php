@@ -18,11 +18,15 @@ return new class extends Migration
             ->constrained('users')
             ->nullOnDelete();
             $table->foreignId('store_id')->constrained('stores');
-            $table->string('number')->unique();
+            $table->string('number');
             $table->string('payment_method');
             $table->enum('status', ['pending', 'processing', 'delivering', 'completed', 'cancelled', 'refunded'])
             ->default('pending');
             $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
+            $table->float('shipping')->default(0);
+            $table->float('tax')->default(0);
+            $table->float('discount')->default(0);
+            $table->float('total')->default(0);
             $table->timestamps();
         });
     }
