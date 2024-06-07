@@ -18,7 +18,7 @@ class CheckoutController extends Controller
 {
     public function create()
     {
-    //    dd(Order::with('detail','products')->first());
+        
         $cart = App::make('cart');
         if ($cart->get()->count() == 0) {
             return redirect()->route('home');
@@ -28,7 +28,22 @@ class CheckoutController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([]);
+        $request->validate([
+            'address.shipping.first_name' => ['required', 'string', 'max:255'],
+            'address.shipping.last_name' => ['required', 'string', 'max:255'],
+            'address.shipping.email' => ['nullable', 'email'],
+            'address.shipping.phone' => ['required', 'string'],
+            'address.shipping.street_address' => ['required', 'string'],
+            'address.shipping.country' => ['required', 'string'],
+            'address.shipping.city' => ['required', 'string'],
+            'address.billing.first_name' => ['required', 'string', 'max:255'],
+            'address.billing.last_name' => ['required', 'string', 'max:255'],
+            'address.billing.email' => ['nullable', 'email'],
+            'address.billing.phone' => ['required', 'string'],
+            'address.billing.street_address' => ['required', 'string'],
+            'address.billing.country' => ['required', 'string'],
+            'address.billing.city' => ['required', 'string'],
+        ]);
         $cart = App::make('cart');
         $items = $cart->get()->groupBy('product.store_id')->all();
         DB::beginTransaction();
@@ -53,16 +68,15 @@ class CheckoutController extends Controller
                     $address['type'] = $type;
                     $order->addresses()->create($address);
                 }
-            }
-
-            DB::commit();
-            event(new OrderCreated($order));
+                }
+                
+                DB::commit();
+                event(new OrderCreated($order));
            
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
         }
-        $cart->clear();
         return redirect()->route('home');
     }
 }

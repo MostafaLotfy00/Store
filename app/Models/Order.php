@@ -38,11 +38,11 @@ class Order extends Model
 
     public function billingAddress(){
         return $this->hasOne(OrderAddress::class, 'order_id', 'id')
-        ->where('type', 'shipping');
+        ->where('type', 'billing');
     }
     public function shippingAddress(){
         return $this->hasOne(OrderAddress::class, 'order_id', 'id')
-        ->where('type', 'billing');
+        ->where('type', 'shipping');
     }
 
     public function detail(){
