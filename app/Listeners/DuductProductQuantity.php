@@ -23,12 +23,14 @@ class DuductProductQuantity
     public function handle($event)
     {
        // $cart= App::make('cart');
-       $order= $event->order;
+       $orders= $event->orders;
+       foreach($orders as $order){
         foreach($order->products as $product){
             $product->decrement('quantity', $product->pivot->quantity);
             // Product::where('id', $item->product_id)->update([
             //     'quantity' => $item->product->quantity - $item->quantity,
             // ]);
         }
+    }
     }
 }

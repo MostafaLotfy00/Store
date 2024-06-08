@@ -47,6 +47,7 @@ class CheckoutController extends Controller
         $cart = App::make('cart');
         $items = $cart->get()->groupBy('product.store_id')->all();
         DB::beginTransaction();
+        $orders= [];
         try {
             foreach ($items as $store_id => $cart_items) {
                 $order = Order::create([
@@ -68,10 +69,12 @@ class CheckoutController extends Controller
                     $address['type'] = $type;
                     $order->addresses()->create($address);
                 }
+                $orders[]= $order;
                 }
                 
                 DB::commit();
-                event(new OrderCreated($order));
+
+                event(new OrderCreated($orders));
            
         } catch (Throwable $e) {
             DB::rollBack();

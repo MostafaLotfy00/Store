@@ -28,7 +28,7 @@ class OrderCompletedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -43,6 +43,17 @@ class OrderCompletedNotification extends Notification
                     ->line("New Order #{$this->order->number} Created by {$address->name} from {$address->country_name}")
                     ->action('Notification Action', route('dashboard.dashboard'))
                     ->line('Thank you for using our application!');
+    }
+
+    public function toDatabase(object $notifiable){
+        $address= $this->order->billingAddress;
+        return [
+            'title'=> "Order #{$this->order->number} Completed",
+            'body'=> "New Order #{$this->order->number} Created by {$address->name} from {$address->country_name}",
+            'icon' => 'fas fa-file',
+            'url' => route('dashboard.dashboard')
+        ];
+
     }
 
     /**

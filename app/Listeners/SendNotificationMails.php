@@ -22,8 +22,10 @@ class SendNotificationMails
      */
     public function handle(object $event): void
     {
-        $order= $event->order;
+        $orders= $event->orders;
+        foreach($orders as $order){
         $user= User::where('store_id', $order->store_id)->first();
         $user->notify(new OrderCompletedNotification($order));
+        }
     }
 }
