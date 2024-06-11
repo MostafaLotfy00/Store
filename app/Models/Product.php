@@ -16,8 +16,36 @@ class Product extends Model
 
     protected $guarded=[];
 
+    protected $hidden =[
+        'created_at', 'updated_at', 'deleted_at', 'category_id', 'store_id', 'image'
+    ];
+    protected $appends= ['image_url'];
     public function scopeActive(Builder $builder){
         $builder->where('status', 'active');
+    }
+
+    public function scopeFilter(Builder $builder, $filters){
+        $options= array_merge([
+            'category_id' => null,
+            'store_id'=> null,
+            'tag_id' => null,
+            'status' => 'active',
+        ],$filters);
+
+        $builder->when($options['status'], function($builder, $value){
+            $builder->where('status', $value);
+        });
+        $builder->when($options['category_id'], function($builder, $value){
+            $builder->where('category_id', $value);
+        });
+        $builder->when($options['store_id'], function($builder, $value){
+            $builder->where('store_id', $value);
+        });
+        $builder->when($options['tag_id'], function($builder, $value){
+            $builder->whereHas('tags', function($builder) use ($value) {
+                $builder->where('id', $value);
+            });
+        });
     }
 
     public function category(){
@@ -33,8 +61,15 @@ class Product extends Model
 
     protected static function booted()
     {
+        static::creating(function(Product $product){
+            $product->slug= Str::slug($product->name);
+        });
+        static::updating(function(Product $product){
+            $product->slug= Str::slug($product->name);
+        });
         static::addGlobalScope('store',new StoreScope);
     }
+   
     
     #ACCESSORS
     public function getImageUrlAttribute(){

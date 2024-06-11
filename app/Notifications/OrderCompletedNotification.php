@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -28,7 +29,7 @@ class OrderCompletedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -53,6 +54,17 @@ class OrderCompletedNotification extends Notification
             'icon' => 'fas fa-file',
             'url' => route('dashboard.dashboard')
         ];
+
+    }
+
+    public function toBroadcast(object $notifiable){
+        $address= $this->order->billingAddress;
+        return new BroadcastMessage([
+            'title'=> "Order #{$this->order->number} Completed",
+            'body'=> "New Order #{$this->order->number} Created by {$address->name} from {$address->country_name}",
+            'icon' => 'fas fa-file',
+            'url' => route('dashboard.dashboard')
+        ]);
 
     }
 
