@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Response;
 
 class ProductsController extends Controller
@@ -16,7 +17,9 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        return Product::with(['category:id,name', 'store:id,name'])->filter($request->query())->paginate();
+        $products=  Product::with(['category:id,name', 'store:id,name'])->filter($request->query())->paginate();
+        return ProductResource::collection($products);
+        // return Product::with(['category:id,name', 'store:id,name'])->filter($request->query())->paginate();
     }
 
     /**
@@ -56,7 +59,8 @@ class ProductsController extends Controller
                 'message' => 'Product not found',
             ], 404);
         }
-        return Response::json($product->load('category:id,name','store:id,name'), 200);
+        return Response::json(new ProductResource($product), 200);
+        //return Response::json($product->load('category:id,name','store:id,name'), 200);
     }
 
     /**
